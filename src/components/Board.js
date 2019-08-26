@@ -38,21 +38,22 @@ class Board extends Component {
   checkCell = (x, y) => {
     //this function is to do what it says
     console.log("clicked", x, y)
-    axios.post(
-      "http://minesweeper-api.herokuapp.com/games/${this.state.id}/,check",
-    {
-        row: x,
-        col: y
-      }
-    )
-    .then(
-      resp => {
-      board: resp.data.board,
-      state: resp.data.state,
-      mine: resp.data.mines
-    })
-   }
-
+    axios
+      .post(
+        "http://minesweeper-api.herokuapp.com/games/${this.state.id}/,check",
+        {
+          row: x,
+          col: y
+        }
+      )
+      .then(resp => {
+        this.setState({
+          board: resp.data.board,
+          state: resp.data.state,
+          mines: resp.data.mines
+        })
+      })
+  }
 
   render() {
     return (
