@@ -1,17 +1,10 @@
-import react, { Component } from "react"
-import Axios from "Axios"
+import React, { Component } from "react"
+// import Axios from "Axios"
 
 class Cells extends Component {
-  check = event => {
-    this.props.check(this.props.row, this.props.column)
-  }
-  // flag = event => {
-  //   this.props.flag(this.props.row, this.props.column) event.preventDefault()
-  // }
-
   render() {
     return (
-      <td onClick={this.check} onContextMenu={this.flag}>
+      <td onClick={this.props.check} onContextMenu={this.props.flag}>
         {" "}
         {this.props.value}
       </td>

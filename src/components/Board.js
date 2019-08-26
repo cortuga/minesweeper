@@ -4,13 +4,11 @@ import Cells from "./Cells"
 
 class Board extends Component {
   state = {
-    data: [],
     board: [],
     state: "",
     id: 0,
     mines: 0,
     difficulty: 0
-    // board: resp.data.board
     // board is currently the easy mode of the game board
   }
 
@@ -20,49 +18,41 @@ class Board extends Component {
     // if (resp === 200) {
     console.log(resp)
     this.setState({
-      data: resp.data,
+      // data: resp.data,
       board: resp.data.board,
       mines: resp.data.mines,
       state: resp.data.state,
-      id: resp.data.id,
-      difficulty: resp.data.difficulty
+      id: resp.data.id
+      // difficulty: resp.data.difficulty
     })
     // }
     // console.log(this.state.state)
   }
 
-  resetGame = () => {
-    this.setState({
-      //need to think of a way to reset the board when this button is clicked.
-    })
-  }
+  // resetGame = () => {
+  //   this.setState({
+  //     //need to think of a way to reset the board when this button is clicked.
+  //   })
+  // }
 
   checkCell = (x, y) => {
     //this function is to do what it says
-    console.log("clicked ${x}, ${y}")
-
+    console.log("clicked", x, y)
     axios.post(
-      "http://minesweeper-api.herokuapp.com/games/${this.state.id}/check",
-      {
+      "http://minesweeper-api.herokuapp.com/games/${this.state.id}/,check",
+    {
         row: x,
         col: y
       }
     )
-  }
+    .then(
+      resp => {
+      board: resp.data.board,
+      state: resp.data.state,
+      mine: resp.data.mines
+    })
+   }
 
-  // createBoard = props => {
-  //   let board = []
-
-  //   for (let i = 0; i < props.rows; i++) {
-  //     board.push([])
-  //   }
-  // }
-
-  flag = (row, column) => {
-    if (this.state.id === 0) {
-      return
-    }
-  }
 
   render() {
     return (
@@ -80,7 +70,7 @@ class Board extends Component {
                         <Cells
                           key={j}
                           display={this.state.board[i][j]}
-                          onClick={() => this.checkCell(i, j)}
+                          check={() => this.checkCell(i, j)}
                         />
                       )
                     })}
