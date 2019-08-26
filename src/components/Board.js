@@ -1,13 +1,14 @@
 import React, { Component } from "react"
 import axios from "axios"
+import Cells from "./Cells"
 
 class Board extends Component {
   state = {
     data: [],
     board: [],
-    mines: 0,
     state: "",
     id: 0,
+    mines: 0,
     difficulty: 0
     // board: resp.data.board
     // board is currently the easy mode of the game board
@@ -27,13 +28,40 @@ class Board extends Component {
       difficulty: resp.data.difficulty
     })
     // }
-    console.log(this.state.state)
+    // console.log(this.state.state)
   }
 
   resetGame = () => {
     this.setState({
       //need to think of a way to reset the board when this button is clicked.
     })
+  }
+
+  checkCell = (x, y) => {
+    //this function is to do what it says
+    console.log("clicked ${x}, ${y}")
+
+    axios.post(
+      "http://minesweeper-api.herokuapp.com/games/${this.state.id}/check",
+      {
+        row: x,
+        col: y
+      }
+    )
+  }
+
+  // createBoard = props => {
+  //   let board = []
+
+  //   for (let i = 0; i < props.rows; i++) {
+  //     board.push([])
+  //   }
+  // }
+
+  flag = (row, column) => {
+    if (this.state.id === 0) {
+      return
+    }
   }
 
   render() {
@@ -48,7 +76,13 @@ class Board extends Component {
                 return (
                   <tr key={i}>
                     {row.map((col, j) => {
-                      return <td>{col}</td>
+                      return (
+                        <Cells
+                          key={j}
+                          display={this.state.board[i][j]}
+                          onClick={() => this.checkCell(i, j)}
+                        />
+                      )
                     })}
                   </tr>
                 )
